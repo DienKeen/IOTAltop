@@ -1,0 +1,71 @@
+Skip to content
+Search or jump to…
+Pull requests
+Issues
+Marketplace
+Explore
+ 
+@DienKeen 
+helloaltop
+/
+Kirim-data-ke-ThingSpeak-via-ESP32
+Public
+Code
+Issues
+Pull requests
+Actions
+Projects
+Wiki
+Security
+Insights
+Kirim-data-ke-ThingSpeak-via-ESP32/sketch.ino
+@helloaltop
+helloaltop Create sketch.ino
+Latest commit 08c07a2 23 hours ago
+ History
+ 1 contributor
+31 lines (26 sloc)  714 Bytes
+   
+#include <WiFi.h>
+#include "ThingSpeak.h"
+
+unsigned long myChannelNumber = 1;
+const char myWriteAPIKey = "P3IPVWCSRD332ESU";
+WiFiClient client;
+
+void setup() {
+  Serial.begin(115200);
+  Serial.print("Connecting to WiFi");
+  WiFi.begin("Wokwi-GUEST", "", 6);
+
+  while (WiFi.status() != WL_CONNECTED) {
+    delay(100);
+    Serial.print(".");
+  }
+  Serial.println(" Connected!");
+
+  ThingSpeak.begin(client);
+}
+
+void loop() {
+  int x = ThingSpeak.writeField(myChannelNumber, 1, random(1,100), myWriteAPIKey);
+  if(x == 200){
+  Serial.println("Channel update successful.");
+  }
+  else{
+  Serial.println("Problem updating channel. HTTP error code " + String(x));
+  }
+  delay(30000); // TODO: Build something amazing!
+}
+© 2022 GitHub, Inc.
+Terms
+Privacy
+Security
+Status
+Docs
+Contact GitHub
+Pricing
+API
+Training
+Blog
+About
